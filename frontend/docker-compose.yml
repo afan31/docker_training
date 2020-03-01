@@ -1,0 +1,21 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000" # outside the container : inside the container
+    volumes:
+      - /app/node_modules
+      - .:/app    # current folder outside the container : current folder inside the container
+
+  # adding 1 more service for tests
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
